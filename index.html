@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<style>[hidden]{display:none!important}body{margin:0}img{max-width:100%}</style>
+<style>body{margin:0}img{max-width:100%}</style>
 <title>SafeAir</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
-/* Layout: on desktop a brief on the left and a working phone on the right; on a phone the app fills the screen. */
+/* Layout: on desktop a short brief on the left and the working phone app on the right; on a phone the app is the page. */
 :root{
   --bg:#E9F0EB; --surface:#FFFFFF; --sunk:#F3F7F4; --ink:#14251C; --muted:#5C6B63; --line:#C9DCD0;
   --deep:#0E4A33; --accent:#17875A; --mint:#D7EDE2; --band:#0E4A33; --on-band:#FFFFFF; --on-band-2:#BFE0CF;
-  --warn:#9A5E0E; --warn-bg:#FBF0DF; --danger:#B83227; --danger-bg:#FBE7E4; --bezel:#0B1510;
+  --amber:#9A5E0E; --amber-bg:#FBF0DF; --red:#B83227; --red-bg:#FBE7E4; --green:#17875A; --green-bg:#DDF1E6; --bezel:#0B1510;
   --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
@@ -21,11 +21,11 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0A130E; --surface:#13221A; --sunk:#0F1B15; --ink:#E4EEE8; --muted:#93A79B; --line:#29402F;
   --deep:#9FE0BF; --accent:#3DBB83; --mint:#1C3A2B; --band:#0F3324; --on-band:#E9F4EE; --on-band-2:#9FCDB5;
-  --warn:#E0A54A; --warn-bg:#35280F; --danger:#F07A6D; --danger-bg:#3A1A16; --bezel:#000000; color-scheme:dark}}
+  --amber:#E0A54A; --amber-bg:#35280F; --red:#F07A6D; --red-bg:#3A1A16; --green:#3DBB83; --green-bg:#173526; --bezel:#000000; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0A130E; --surface:#13221A; --sunk:#0F1B15; --ink:#E4EEE8; --muted:#93A79B; --line:#29402F;
   --deep:#9FE0BF; --accent:#3DBB83; --mint:#1C3A2B; --band:#0F3324; --on-band:#E9F4EE; --on-band-2:#9FCDB5;
-  --warn:#E0A54A; --warn-bg:#35280F; --danger:#F07A6D; --danger-bg:#3A1A16; --bezel:#000000; color-scheme:dark}
+  --amber:#E0A54A; --amber-bg:#35280F; --red:#F07A6D; --red-bg:#3A1A16; --green:#3DBB83; --green-bg:#173526; --bezel:#000000; color-scheme:dark}
 
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -34,7 +34,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15p
 .wrap{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 392px;gap:48px;align-items:start}
 h1,h2,h3{text-wrap:balance;margin:0}
 button{font:inherit;color:inherit;cursor:pointer}
-button:focus-visible,label:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+button:focus-visible,input:focus-visible,label:focus-within{outline:3px solid var(--accent);outline-offset:2px}
 
 /* ---------- brief ---------- */
 .brief{min-width:0;display:flex;flex-direction:column;gap:22px;max-width:62ch}
@@ -45,16 +45,20 @@ button:focus-visible,label:focus-within{outline:3px solid var(--accent);outline-
 .by b{color:var(--ink)}
 .blk h2{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
 .blk ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.blk p{margin:0}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13.5px;font-weight:600}
+.flow span{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
+.flow i{font-style:normal;color:var(--muted)}
 .maths{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:8px}
 .eq{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;font-size:14px}
 .eq code{font-family:var(--mono);font-size:13px;color:var(--deep)}
 .eq span{color:var(--muted);font-size:12.5px;text-align:right}
-.example{border-top:1px dashed var(--line);padding-top:10px;font-size:14px}
-.example b{font-variant-numeric:tabular-nums}
+.keyrow{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px}
+.ev{display:inline-block;font-size:10.5px;font-weight:700;border-radius:4px;padding:0 5px;margin-left:3px;vertical-align:1px;background:var(--mint);color:var(--deep)}
 .note{font-size:12.5px;color:var(--muted);margin:0}
 
 /* ---------- phone ---------- */
-.phone{width:392px;height:800px;background:var(--bezel);border-radius:48px;padding:12px;position:sticky;top:max(20px,env(safe-area-inset-top,0px));box-shadow:0 30px 60px -30px rgba(14,74,51,.45)}
+.phone{width:392px;height:820px;background:var(--bezel);border-radius:48px;padding:12px;position:sticky;top:max(20px,env(safe-area-inset-top,0px));box-shadow:0 30px 60px -30px rgba(14,74,51,.45)}
 .screen{width:100%;height:100%;background:var(--sunk);border-radius:38px;overflow:hidden;display:flex;flex-direction:column;position:relative}
 .appbar{background:var(--band);color:var(--on-band);padding:18px 20px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .logo{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:.02em;line-height:1}
@@ -62,68 +66,90 @@ button:focus-visible,label:focus-within{outline:3px solid var(--accent);outline-
 .lang{display:flex;border:1px solid var(--on-band-2);border-radius:999px;overflow:hidden}
 .lang button{background:none;border:0;color:var(--on-band-2);font-size:12px;font-weight:600;padding:5px 10px}
 .lang button[aria-pressed="true"]{background:var(--on-band);color:var(--band)}
-.view{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px}
+.view{flex:1;overflow-y:auto;padding:14px 16px 18px;display:flex;flex-direction:column;gap:12px}
 .tabs{display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border-top:1px solid var(--line);padding:6px 6px 14px}
 .tabs button{background:none;border:0;padding:8px 2px;font-size:11.5px;font-weight:600;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;border-radius:10px}
 .tabs button svg{width:22px;height:22px}
 .tabs button[aria-current="page"]{color:var(--accent);background:var(--mint)}
 
-.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:13px 14px}
 .k{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.big{font-family:var(--display);font-weight:700;font-size:34px;line-height:1;color:var(--deep);font-variant-numeric:tabular-nums}
-.scanbtn{background:var(--accent);color:#fff;border:0;border-radius:20px;padding:22px 18px;display:flex;align-items:center;gap:16px;text-align:left}
-.scanbtn svg{width:46px;height:46px;flex:none}
-.scanbtn b{display:block;font-family:var(--display);font-size:28px;line-height:1}
-.scanbtn span{font-size:13px;opacity:.9}
-.pt{display:flex;justify-content:space-between;gap:10px;align-items:center;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;text-align:left}
-.pt code{font-family:var(--mono);font-size:12px;color:var(--accent)}
-.pt small{display:block;color:var(--muted);font-size:12px}
-.pill{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
-.p-bad{background:var(--danger-bg);color:var(--danger)}
-.p-ok{background:var(--mint);color:var(--accent)}
-.p-wait{background:var(--warn-bg);color:var(--warn)}
+.h{font-size:19px;font-weight:700;line-height:1.2}
+.big{font-family:var(--display);font-weight:700;font-size:32px;line-height:1;color:var(--deep);font-variant-numeric:tabular-nums}
+.sub{font-size:12px;color:var(--muted)}
+.mono{font-family:var(--mono);font-size:12px;color:var(--accent)}
 .row{display:flex;gap:10px}
 .row>*{flex:1;min-width:0}
+.back{background:none;border:0;padding:0;font-size:13px;font-weight:600;color:var(--accent);align-self:flex-start}
 
-.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tile{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:14px 12px;min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:8px}
-.tile svg{width:30px;height:30px;color:var(--accent)}
-.tile b{font-size:15px;line-height:1.2}
-.tile[aria-pressed="true"]{border-color:var(--accent);background:var(--mint)}
-.chips{display:flex;gap:8px;flex-wrap:wrap}
-.chip{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 12px;font-size:13px;font-weight:600}
-.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--mint);color:var(--deep)}
-.toggle{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px}
-.toggle input{width:20px;height:20px;accent-color:var(--accent)}
-.send{background:var(--deep);color:var(--surface);border:0;border-radius:16px;padding:16px;font-size:17px;font-weight:700;width:100%}
-.send:disabled{opacity:.35;cursor:not-allowed}
-.tapcount{font-size:12px;color:var(--muted);text-align:center;margin:-4px 0 0}
+.scanbtn{background:var(--accent);color:#fff;border:0;border-radius:20px;padding:20px 18px;display:flex;align-items:center;gap:16px;text-align:left}
+.scanbtn svg{width:44px;height:44px;flex:none}
+.scanbtn b{display:block;font-family:var(--display);font-size:27px;line-height:1}
+.scanbtn span{font-size:13px;opacity:.9}
 
-.impact{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
-.impact div{background:var(--sunk);border-radius:12px;padding:10px 4px}
-.impact .big{font-size:26px}
-.impact small{display:block;font-size:11px;color:var(--muted)}
-.tag{display:flex;gap:12px;align-items:center;background:var(--danger-bg);border:1.5px dashed var(--danger);border-radius:14px;padding:12px}
-.tag svg{width:30px;height:30px;flex:none;color:var(--danger)}
-.tag code{font-family:var(--mono);font-size:18px;color:var(--danger)}
-.ghost{background:none;border:1.5px solid var(--line);border-radius:14px;padding:12px;font-weight:600;width:100%}
+.dot{width:12px;height:12px;border-radius:50%;flex:none;display:inline-block}
+.d-red{background:var(--red)} .d-amber{background:#D99A2B} .d-green{background:var(--green)}
+.pill{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.p-red{background:var(--red-bg);color:var(--red)} .p-amber{background:var(--amber-bg);color:var(--amber)} .p-green{background:var(--green-bg);color:var(--green)}
 
-.rep{display:flex;flex-direction:column;gap:8px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.st{display:flex;gap:12px;align-items:center;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:11px 13px;text-align:left}
+.st .mid{flex:1;min-width:0}
+.st b{display:block;font-size:14.5px}
+.legend{display:flex;gap:12px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.legend span{display:flex;align-items:center;gap:5px}
+
+.banner{border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:2px}
+.banner b{font-family:var(--display);font-size:30px;line-height:1;letter-spacing:.02em}
+.b-red{background:var(--red);color:#fff} .b-amber{background:#D99A2B;color:#2A1B03} .b-green{background:var(--green);color:#fff}
+.readings{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rd{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:11px 12px}
+.rd .big{font-size:34px}
+.rd .big small{font-family:var(--body);font-size:14px;font-weight:600;margin-left:3px}
+.rd.bad .big{color:var(--red)}
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
-.steps i{height:5px;border-radius:3px;background:var(--line)}
+.steps i{height:6px;border-radius:3px;background:var(--line)}
 .steps i.on{background:var(--accent)}
-.rep .meta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);gap:8px}
-.rep code{font-family:var(--mono);font-size:12px}
+.stepnames{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;font-size:10.5px;color:var(--muted);margin-top:4px}
+.stepnames .on{color:var(--ink);font-weight:700}
+
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.tile{background:var(--surface);border:2px solid var(--line);border-radius:15px;padding:11px;min-height:82px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:6px}
+.tile svg{width:26px;height:26px;color:var(--accent)}
+.tile b{font-size:14px;line-height:1.2}
+.tile[aria-pressed="true"]{border-color:var(--accent);background:var(--mint)}
+.addrow{display:flex;gap:8px}
+.photo{display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px dashed var(--line);border-radius:12px;padding:10px;font-size:13px;font-weight:600;color:var(--muted);flex:none;width:112px;cursor:pointer;background:var(--surface)}
+.photo input{position:absolute;width:1px;height:1px;opacity:0}
+.photo img{width:36px;height:36px;object-fit:cover;border-radius:6px}
+.note-in{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:12px;padding:10px;font:inherit;font-size:14px;background:var(--surface);color:var(--ink)}
+.send{background:var(--deep);color:var(--surface);border:0;border-radius:16px;padding:15px;font-size:17px;font-weight:700;width:100%}
+.send:disabled{opacity:.35;cursor:not-allowed}
+.ghost{background:none;border:1.5px solid var(--line);border-radius:14px;padding:11px;font-weight:600;width:100%}
+.center{text-align:center}
 
 .kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.kpis .card{padding:12px}
-.kpis small{font-size:11.5px;color:var(--muted)}
-.chart svg{width:100%;height:auto;display:block}
-.board{display:flex;flex-direction:column;gap:8px}
-.board div{display:grid;grid-template-columns:56px minmax(0,1fr) 40px;gap:8px;align-items:center;font-size:13px}
-.board .bar{height:10px;border-radius:5px;background:var(--mint);overflow:hidden}
-.board .bar i{display:block;height:100%;background:var(--accent)}
-.board b{text-align:right;font-variant-numeric:tabular-nums}
+.kpis .card{padding:11px 12px}
+.bars{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.bars div{display:grid;grid-template-columns:54px minmax(0,1fr) 44px;gap:8px;align-items:center;font-size:12px}
+.bars code{font-family:var(--mono);font-size:11px}
+.bar{height:10px;border-radius:5px;background:var(--sunk);position:relative;overflow:visible}
+.bar i{display:block;height:100%;border-radius:5px}
+.bar .lim{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);opacity:.55}
+.bars b{text-align:right;font-variant-numeric:tabular-nums}
+.team div{display:flex;justify-content:space-between;gap:8px;font-size:13px;padding:6px 0;border-top:1px solid var(--line)}
+.team div:first-of-type{border-top:0}
+.team b{color:var(--green)}
+
+.act{display:flex;flex-direction:column;gap:8px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 13px}
+.act .top{display:flex;justify-content:space-between;gap:8px;width:100%}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1.5px solid var(--line);border-radius:12px;overflow:hidden}
+.seg button{background:var(--surface);border:0;padding:9px;font-size:13px;font-weight:600}
+.seg button[aria-pressed="true"]{background:var(--mint);color:var(--deep)}
+table.ba{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+table.ba th{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;font-weight:700;padding:4px 0}
+table.ba td{padding:6px 0;border-top:1px solid var(--line)}
+table.ba input{width:70px;border:1.5px solid var(--line);border-radius:8px;padding:5px 7px;font:inherit;font-size:13px;background:var(--surface);color:var(--ink)}
+.good{color:var(--green);font-weight:700}
 
 .scanning{position:absolute;inset:0;background:rgba(5,15,10,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#E9F4EE;z-index:5}
 .finder{width:200px;height:200px;border-radius:20px;position:relative;border:3px solid #3DBB83}
@@ -131,7 +157,6 @@ button:focus-visible,label:focus-within{outline:3px solid var(--accent);outline-
 @keyframes sweep{to{top:180px}}
 @media (prefers-reduced-motion:reduce){.finder::after{animation:none;top:96px}}
 
-/* ---------- narrow screens: the app is the page ---------- */
 @media (max-width:900px){
   .wrap{grid-template-columns:minmax(0,1fr);gap:28px}
   .phone{order:-1;position:relative;top:0;margin:0 auto;width:100%;max-width:392px}
@@ -139,55 +164,70 @@ button:focus-visible,label:focus-within{outline:3px solid var(--accent);outline-
 }
 @media (max-width:440px){
   body{padding-block:12px}
-  .phone{background:none;padding:0;height:760px;box-shadow:none;border-radius:0}
+  .phone{background:none;padding:0;height:780px;box-shadow:none;border-radius:0}
   .screen{border-radius:22px;border:1px solid var(--line)}
 }
 </style>
 
 <div class="wrap">
   <section class="brief" aria-label="About this prototype">
-    <div class="eyebrow">Prototype · L'Oréal Sustainability Challenge 2026 · Option 1</div>
+    <div class="eyebrow">Prototype · L'Oréal Sustainability Challenge 2026 · Safer Work, Better Work</div>
     <h1>SafeAir</h1>
-    <p class="lede">A QR code on every compressed air point. Scan it, tap twice, and the report goes to the right person. Every report shows what the problem costs in energy, rupees and CO2, so a safety report is also a sustainability report.</p>
+    <p class="lede">Every safety report is tied to a physical air gun, an energy cost and a verified fix.</p>
     <p class="by"><b>Azen Tashis</b> · B.Tech Mechanical Engineering · IIT Patna</p>
+
+    <div class="blk">
+      <h2>The story</h2>
+      <div class="flow"><span>Unsafe open pipe</span><i>→</i><span>One-tap report</span><i>→</i><span>Automatic action</span><i>→</i><span>Measured safety and energy gain</span></div>
+    </div>
 
     <div class="blk">
       <h2>Try it</h2>
       <ul>
-        <li>Tap <b>Scan an air point</b>, then pick what you saw and press Send. That is the whole report.</li>
-        <li>Open <b>My reports</b> and tap a report to move it along, as maintenance would.</li>
-        <li>Open <b>Plant</b> to see energy and CO2 saved from fixed items add up.</li>
+        <li><b>Scan</b>: scan a gun, pick the issue, add a photo or a note, send.</li>
+        <li><b>Stations</b>: every gun is green, amber or red. Open FL2-03 to see why it is red.</li>
+        <li><b>Actions</b>: assign a fix, enter the after readings, verify it. The station turns green and the dashboard updates.</li>
+        <li><b>Dashboard</b>: air use, cost, unsafe events, noise, open reports and how fast they close.</li>
       </ul>
     </div>
 
     <div class="blk">
-      <h2>How the cost of a leak is worked out</h2>
+      <h2>What is new here</h2>
+      <p>Guarded safety nozzles already exist. What is new is the loop around them:</p>
+      <ul style="margin-top:8px">
+        <li>A QR code links each report to one physical air gun.</li>
+        <li>Pressure, noise and airflow are recorded for every station.</li>
+        <li>The cost of every unsafe gun or leak is shown automatically.</li>
+        <li>Near misses can be reported in two taps.</li>
+        <li>An issue only closes after before and after readings prove the fix.</li>
+        <li>Operators confirm the new nozzle still cleans well.</li>
+      </ul>
+    </div>
+
+    <div class="blk">
+      <h2>Trust on the shop floor</h2>
+      <p>Reports are linked to equipment and work zones, not to individual employees, and are used for improvement, not punishment. Teams only see their own progress against last month. Nobody is ranked.</p>
+    </div>
+
+    <div class="blk">
+      <h2>How the numbers are worked out</h2>
       <div class="maths">
-        <div class="eq"><code>Air lost = 0.61 × hole flow</code><span>orifice table at 100 psig</span></div>
-        <div class="eq"><code>Power = 0.18 kW × cfm</code><span>18 kW per 100 cfm, US DOE</span></div>
-        <div class="eq"><code>kWh a year = power × 4,800 h</code><span>two shifts, assumed</span></div>
-        <div class="eq"><code>CO2 = kWh × 0.71 kg</code><span>India grid factor, CEA</span></div>
-        <div class="example">A clear hiss, about a 1/16 inch hole: 6.5 × 0.61 ≈ <b>4.0 cfm</b> → <b>0.71 kW</b> → <b>~3,400 kWh</b>, <b>Rs 27,000</b> and <b>2.4 t CO2</b> a year, at Rs 8 per kWh.</div>
+        <div class="eq"><code>Power = 0.18 kW × SCFM</code><span>US DOE<span class="ev">P</span></span></div>
+        <div class="eq"><code>Gun use = 45 min per shift</code><span>assumed<span class="ev">A</span></span></div>
+        <div class="eq"><code>Leaks run all 8 h of a shift</code><span>assumed<span class="ev">A</span></span></div>
+        <div class="eq"><code>₹8 per kWh, 600 shifts a year</code><span>assumed<span class="ev">A</span></span></div>
+        <div class="eq"><code>Open pipe 33 SCFM, nozzle 10 SCFM</code><span>nozzle maker<span class="ev">M</span></span></div>
+        <p class="note" style="margin-top:4px">Open pipe at FL2-03: (33 − 10) × 0.18 × 0.75 h × ₹8 ≈ <b>₹25 per shift</b>, about ₹15,000 a year.</p>
       </div>
     </div>
 
     <div class="blk">
-      <h2>Why this fits L'Oréal</h2>
-      <p style="margin:0">L'Oréal's sites already run on 100% renewable power, and its energy plan starts with "use less". Compressed air is one of the least efficient utilities in a plant, so every kWh this app finds is green power freed for other use. CO2 is shown at the India grid rate so that the saving can be compared with any other plant.</p>
+      <h2>Where readings come from</h2>
+      <p>In the pilot, pressure comes from a gauge on the regulator and noise from a handheld sound meter at each check, entered in the app. Airflow is from the nozzle maker's data until a clamp-on flow meter is fitted.</p>
     </div>
 
-    <div class="blk">
-      <h2>Built for the shop floor</h2>
-      <ul>
-        <li>Big tiles that work with gloves. Hindi labels with one tap.</li>
-        <li>Can be sent without a name, so people report near misses.</li>
-        <li>Credits go to the line team, not the person, so nobody games it.</li>
-        <li>Three reports at one point start a task-risk review of that job.</li>
-        <li>After every nozzle swap the app asks "Still cleans well?" Yes or No. That is the employee feedback measure.</li>
-        <li>A paper tag goes on the point too, so the fix is visible on the floor.</li>
-      </ul>
-    </div>
-    <p class="note">Demo data throughout. Flow figures from the ENERGY STAR orifice table; 0.61 is the sharp-edged hole factor, so leak costs are on the low side. Hours and tariff to be measured in the Week 1–2 survey.</p>
+    <div class="keyrow"><span><span class="ev">M</span> manufacturer data</span><span><span class="ev">P</span> published reference</span><span><span class="ev">A</span> assumption</span><span><span class="ev">T</span> pilot target</span></div>
+    <p class="note">All station data in the app is demo data.</p>
   </section>
 
   <div class="phone" role="region" aria-label="SafeAir app prototype">
@@ -201,14 +241,14 @@ button:focus-visible,label:focus-within{outline:3px solid var(--accent);outline-
       </header>
       <main class="view" id="view" aria-live="polite"></main>
       <nav class="tabs" aria-label="App sections">
-        <button id="tab-home" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
-        <button id="tab-report" data-tab="report"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z"/><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2"/></svg>Scan</button>
-        <button id="tab-mine" data-tab="mine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>My reports</button>
-        <button id="tab-plant" data-tab="plant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Plant</button>
+        <button id="tab-scan" data-tab="scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z"/><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2"/></svg>Scan</button>
+        <button id="tab-stations" data-tab="stations"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="7" r="2.5"/><circle cx="6" cy="17" r="2.5"/><path d="M11 7h9M11 17h9"/></svg>Stations</button>
+        <button id="tab-dash" data-tab="dash"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Dashboard</button>
+        <button id="tab-actions" data-tab="actions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h11"/></svg>Actions</button>
       </nav>
       <div class="scanning" id="scanning" hidden>
         <div class="finder"></div>
-        <div>Point at the QR code on the air drop</div>
+        <div>Point at the QR code on the air gun</div>
       </div>
     </div>
   </div>
@@ -216,177 +256,270 @@ button:focus-visible,label:focus-within{outline:3px solid var(--accent);outline-
 
 <script>
 (function(){
-  /* ---- figures ---- */
-  const HOURS = 4800, TARIFF = 8, GRID = 0.71, KW_PER_CFM = 0.18, EDGE = 0.61;
-  const LEAK = { faint:{label:"Faint hiss", hi:"हल्की सीटी", hole:"1/32 in", cfm:1.6},
-                 clear:{label:"Clear hiss", hi:"साफ़ सीटी", hole:"1/16 in", cfm:6.5},
-                 loud:{label:"Loud blast", hi:"तेज़ आवाज़", hole:"1/8 in", cfm:26} };
-  const leakCost = size => { const cfm = LEAK[size].cfm*EDGE, kwh = cfm*KW_PER_CFM*HOURS;
-    return { cfm, kwh, rs: kwh*TARIFF, co2: kwh*GRID/1000 }; };
-  /* open pipe to safety nozzle: the per-gun figure used on the slide */
-  const GUN = { kwh:1850, rs:15000, co2:1.3 };
+  /* ---------- figures ---------- */
+  const KW_PER_SCFM = 0.18, GUN_H = 0.75, SHIFT_H = 8, TARIFF = 8, SHIFTS = 600, NOZZLE_SCFM = 10;
+  const LIM = { psi:30, dba:85 };
+  const shiftCost = s => s.leak ? s.leak*KW_PER_SCFM*SHIFT_H*TARIFF + s.scfm*KW_PER_SCFM*GUN_H*TARIFF : s.scfm*KW_PER_SCFM*GUN_H*TARIFF;
+  const wastePerShift = s => Math.max(0, s.scfm-NOZZLE_SCFM)*KW_PER_SCFM*GUN_H*TARIFF + (s.leak||0)*KW_PER_SCFM*SHIFT_H*TARIFF;
 
-  const TYPES = {
-    open:  { en:"Open pipe in use", hi:"खुला पाइप चल रहा है", icon:'<path d="M3 12h12M15 9v6M18 8l3-2M18 12h3M18 16l3 2"/>' },
-    leak:  { en:"Air leak",         hi:"हवा लीक",             icon:'<path d="M4 10h9a3 3 0 1 0-3-3M4 14h13a3 3 0 1 1-3 3M4 18h5"/>' },
-    unsafe:{ en:"Felt unsafe",      hi:"असुरक्षित लगा",        icon:'<path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/>' },
-    near:  { en:"Near miss",        hi:"बाल-बाल बचे",          icon:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>' }
+  const ISSUES = {
+    open:  { en:"Open pipe",       hi:"खुला पाइप",     to:"Maintenance", icon:'<path d="M3 12h12M15 9v6M18 8l3-2M18 12h3M18 16l3 2"/>' },
+    psi:   { en:"Unsafe pressure", hi:"ज़्यादा दबाव",    to:"Maintenance", icon:'<circle cx="12" cy="13" r="7"/><path d="M12 13l3-3M12 3v3"/>' },
+    dust:  { en:"Dust issue",      hi:"धूल की समस्या",  to:"Supervisor",  icon:'<circle cx="7" cy="8" r="1.5"/><circle cx="13" cy="6" r="1"/><circle cx="17" cy="11" r="1.5"/><circle cx="9" cy="14" r="1"/><circle cx="14" cy="17" r="1.5"/>' },
+    noise: { en:"Noise issue",     hi:"ज़्यादा शोर",     to:"Supervisor",  icon:'<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 8a5 5 0 0 1 0 8M20 5a9 9 0 0 1 0 14"/>' },
+    leak:  { en:"Air leak",        hi:"हवा लीक",       to:"Maintenance", icon:'<path d="M4 10h9a3 3 0 1 0-3-3M4 14h13a3 3 0 1 1-3 3M4 18h5"/>' },
+    near:  { en:"Near miss",       hi:"बाल-बाल बचे",    to:"Supervisor",  icon:'<path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/>' }
   };
-  const STAGES = ["Reported","Assigned","Fixed","Checked"];
+  const STAGES = ["Reported","Assigned","Fixed","Verified"];
 
-  const POINTS = [
-    { id:"AP-L3-07", line:"Line 3", where:"Bottle blow-off, filling", device:"Open copper pipe", state:"bad" },
-    { id:"AP-L1-02", line:"Line 1", where:"Carton station, packing",  device:"Safety nozzle",     state:"ok" },
-    { id:"AP-L5-11", line:"Line 5", where:"Mixer cleaning bay",       device:"Nozzle + 30 psi regulator", state:"ok" }
+  const stations = [
+    { id:"FL2-03", area:"Filling Line 2", job:"Cap blow-off",        device:"Open copper pipe",        psi:95, dba:103, scfm:33, checked:"Today 07:40", overdue:false },
+    { id:"FL2-05", area:"Filling Line 2", job:"Bottle dust-off",     device:"Guarded nozzle",          psi:30, dba:74,  scfm:10, checked:"Today 07:45", overdue:false },
+    { id:"FL1-02", area:"Filling Line 1", job:"Nozzle dust-off",     device:"Guarded nozzle",          psi:30, dba:72,  scfm:10, checked:"Yesterday",   overdue:false },
+    { id:"FL1-06", area:"Filling Line 1", job:"Label station",       device:"Guarded nozzle",          psi:48, dba:82,  scfm:14, checked:"Yesterday",   overdue:false },
+    { id:"PK1-01", area:"Packing 1",      job:"Carton cleaning",     device:"Open copper pipe",        psi:88, dba:101, scfm:33, checked:"Today 08:10", overdue:false },
+    { id:"PK1-04", area:"Packing 1",      job:"Case sealer",         device:"Guarded nozzle",          psi:30, dba:73,  scfm:10, checked:"9 days ago",  overdue:true  },
+    { id:"PK2-03", area:"Packing 2",      job:"Shrink tunnel",       device:"Guarded nozzle",          psi:30, dba:74,  scfm:11, checked:"Today 08:20", overdue:false, leak:4 },
+    { id:"MX-02",  area:"Mixing",         job:"Vessel cleaning bay", device:"Nozzle + 30 psi regulator",psi:30, dba:71, scfm:10, checked:"Yesterday",   overdue:false }
   ];
-
-  let fb = { yes:35, no:3 }, asked = false;
-  let lang = "en", tab = "home", point = null, pick = null, size = "clear", anon = true, last = null, seq = 142;
-  const reports = [
-    { id:"SA-0139", type:"leak", size:"loud",  point:"AP-L2-04", line:"Line 2", stage:3, when:"Mon 10:12" },
-    { id:"SA-0140", type:"open", size:null,    point:"AP-L3-07", line:"Line 3", stage:1, when:"Tue 14:40" },
-    { id:"SA-0141", type:"near", size:null,    point:"AP-L4-01", line:"Line 4", stage:0, when:"Today 08:05" }
+  const actions = [
+    { id:"A-0149", st:"FL1-02", issue:"open",  stage:3, to:"Maintenance", fix:"Replace with guarded nozzle", before:{psi:92,dba:104,scfm:33}, after:{psi:30,dba:72,scfm:10}, cleans:true, days:2.0, when:"Mon" },
+    { id:"A-0148", st:"MX-02",  issue:"psi",   stage:3, to:"Maintenance", fix:"Fit regulator, set 30 psi",  before:{psi:70,dba:84,scfm:12}, after:{psi:30,dba:71,scfm:10}, cleans:true, days:1.5, when:"Mon" },
+    { id:"A-0150", st:"FL1-06", issue:"psi",   stage:2, to:"Maintenance", fix:"Reset regulator to 30 psi",  before:{psi:48,dba:82,scfm:14}, after:{psi:30,dba:74,scfm:10}, cleans:null, when:"Tue" },
+    { id:"A-0151", st:"PK1-01", issue:"open",  stage:1, to:"Maintenance", fix:"Replace with guarded nozzle", before:{psi:88,dba:101,scfm:33}, after:null, cleans:null, when:"Wed" },
+    { id:"A-0152", st:"FL2-03", issue:"open",  stage:1, to:"Maintenance", fix:"Replace with guarded nozzle", before:{psi:95,dba:103,scfm:33}, after:null, cleans:null, when:"Today" },
+    { id:"A-0153", st:"PK2-03", issue:"leak",  stage:0, to:"Maintenance", fix:"Replace hose coupling",       before:{psi:30,dba:74,scfm:11}, after:null, cleans:null, when:"Today" },
+    { id:"A-0154", st:"PK1-01", issue:"near",  stage:1, to:"Supervisor",  fix:"Hose whipped when coupling slipped. Review the job.", before:null, after:null, cleans:null, when:"Today" }
   ];
-  const credits = { "Line 1":90, "Line 2":150, "Line 3":120, "Line 4":70, "Line 5":60 };
+  let seq = 155;
 
+  function status(s){
+    if(/open/i.test(s.device) || s.psi > 60) return { c:"red",   label:"Unsafe",              why: /open/i.test(s.device) ? "Open pipe, pressure too high" : "Pressure far above 30 psi" };
+    if(s.psi > 35 || s.dba > LIM.dba || s.overdue || s.leak || actions.some(a=>a.st===s.id && a.stage<3 && a.issue!=="near"))
+      return { c:"amber", label:"Inspection required", why: s.leak ? "Air leak reported" : s.overdue ? "Check overdue" : s.psi > 35 ? "Pressure above 30 psi" : "Open report" };
+    return { c:"green", label:"Safe", why:"Guarded nozzle, normal pressure" };
+  }
+
+  /* ---------- state ---------- */
+  let lang="en", tab="scan", screen="scan", cur=null, pick=null, note="", photo=null, openAct=null, filter="all";
   const $ = s => document.querySelector(s);
   const view = $("#view");
-  const fmt = n => Math.round(n).toLocaleString("en-IN");
-  const t1 = n => (Math.round(n*10)/10).toFixed(1);
-  const label = k => TYPES[k][lang];
+  const rs = n => "₹" + Math.round(n).toLocaleString("en-IN");
   const svg = p => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
-  const saving = r => r.type==="open" ? GUN : r.type==="leak" ? leakCost(r.size) : null;
-  const pillFor = st => st>=2 ? `<span class="pill p-ok">${STAGES[st]}</span>` : `<span class="pill p-wait">${STAGES[st]}</span>`;
+  const S = id => stations.find(s=>s.id===id);
+  const esc = t => String(t).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const issueName = k => ISSUES[k][lang];
+  const stepper = st => `<div class="steps">${STAGES.map((_,i)=>`<i class="${i<=st?"on":""}"></i>`).join("")}</div><div class="stepnames">${STAGES.map((n,i)=>`<span class="${i===st?"on":""}">${n}</span>`).join("")}</div>`;
+  const pillC = c => c==="red"?"p-red":c==="amber"?"p-amber":"p-green";
 
-  function totals(){
-    let kwh=0, rs=0, co2=0, fixed=0;
-    reports.forEach(r=>{ const s=saving(r); if(r.stage>=2 && s){ kwh+=s.kwh; rs+=s.rs; co2+=s.co2; fixed++; } });
-    return { kwh, rs, co2, fixed };
-  }
-
-  /* ---- screens ---- */
-  function home(){
-    const open = reports.filter(r=>r.stage<2).length;
+  /* ---------- 1. scan and report ---------- */
+  function scanHome(){
+    const open = actions.filter(a=>a.stage<3).length;
     return `
-      <div><div class="k">Good morning, Line 3</div><h2 style="font-size:20px;margin-top:2px">Seen something with the air?</h2></div>
-      <button class="scanbtn" id="go-scan">${svg('<path d="M3 7V4h3M21 7V4h-3M3 17v3h3M21 17v3h-3M7 12h10"/>')}<div><b>Scan an air point</b><span>QR code on every air drop</span></div></button>
+      <div><div class="k">Filling &amp; packing</div><div class="h">Seen something with an air gun?</div></div>
+      <button class="scanbtn" id="go-scan">${svg('<path d="M3 7V4h3M21 7V4h-3M3 17v3h3M21 17v3h-3M7 12h10"/>')}<div><b>Scan an air gun</b><span>QR code on every gun</span></div></button>
       <div class="row">
-        <div class="card"><div class="k">Open items</div><div class="big">${open}</div></div>
-        <div class="card"><div class="k">Line 3 credits</div><div class="big">${credits["Line 3"]}</div></div>
+        <div class="card"><div class="k">Open reports</div><div class="big">${open}</div></div>
+        <div class="card"><div class="k">Red stations</div><div class="big" style="color:var(--red)">${stations.filter(s=>status(s).c==="red").length}</div></div>
       </div>
-      ${asked?`<div class="card"><b>Thanks, noted.</b><small style="display:block;color:var(--muted)">Every answer counts toward the roll-out check in the Plant view.</small></div>`
-        :`<div class="card"><div class="k">Quick check · AP-L1-02</div><b style="display:block;margin:2px 0 10px">New safety nozzle fitted yesterday. Does it still clean well?</b><div class="row"><button class="chip" id="fb-yes">Yes</button><button class="chip" id="fb-no">No</button></div></div>`}
-      <div class="k">Or pick a point (demo)</div>
-      ${POINTS.map(p=>`<button class="pt" data-point="${p.id}"><div><code>${p.id}</code><b style="display:block">${p.where}</b><small>${p.device}</small></div>${p.state==="bad"?'<span class="pill p-bad">Open pipe</span>':'<span class="pill p-ok">Safe</span>'}</button>`).join("")}
+      <div class="card"><div class="k">Quick check · PK1-04</div><b style="display:block;margin:3px 0 10px">Nozzle replaced on Monday. Does it still clean well?</b>
+        <div class="row"><button class="ghost" data-clean="yes">Yes</button><button class="ghost" data-clean="no">No</button></div></div>
+      <div class="k">Or pick a gun (demo)</div>
+      ${["FL2-03","PK2-03","MX-02"].map(id=>stRow(S(id),"scanpick")).join("")}
     `;
   }
-
   function report(){
-    if(!point) return `<div class="card"><b>Scan a QR code first.</b><p class="note" style="margin-top:6px">Each air drop has its own code, so the app already knows the line, the job and what is fitted.</p></div><button class="send" id="go-scan">Scan an air point</button>`;
-    const p = POINTS.find(x=>x.id===point);
-    const taps = (pick?1:0);
+    const s = S(cur), st = status(s);
     return `
-      <div class="card"><code style="font-family:var(--mono);font-size:12px;color:var(--accent)">${p.id} · ${p.line}</code><b style="display:block;font-size:16px">${p.where}</b><small style="color:var(--muted)">Fitted: ${p.device}</small></div>
+      <button class="back" data-go="scan">‹ Back</button>
+      <div class="card" style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+        <div><span class="mono">${s.id} · ${s.area}</span><b style="display:block;font-size:15.5px">${s.job}</b><span class="sub">Fitted: ${s.device}</span></div>
+        <span class="pill ${pillC(st.c)}">${st.label}</span></div>
       <div class="k">${lang==="hi"?"क्या देखा?":"What did you see?"}</div>
-      <div class="tiles">${Object.keys(TYPES).map(k=>`<button class="tile" data-pick="${k}" aria-pressed="${pick===k}">${svg(TYPES[k].icon)}<b>${label(k)}</b></button>`).join("")}</div>
-      ${pick==="leak"?`<div class="k">${lang==="hi"?"आवाज़ कितनी?":"How loud?"}</div><div class="chips">${Object.keys(LEAK).map(s=>`<button class="chip" data-size="${s}" aria-pressed="${size===s}">${lang==="hi"?LEAK[s].hi:LEAK[s].label}</button>`).join("")}</div>`:""}
-      <label class="toggle card" for="anon">Send without my name<input type="checkbox" id="anon" ${anon?"checked":""}></label>
+      <div class="tiles">${Object.keys(ISSUES).map(k=>`<button class="tile" data-pick="${k}" aria-pressed="${pick===k}">${svg(ISSUES[k].icon)}<b>${issueName(k)}</b></button>`).join("")}</div>
+      <div class="addrow">
+        <label class="photo" for="photo">${photo?`<img src="${photo}" alt="Attached photo">Photo`:`${svg('<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>').replace('<svg','<svg width="18" height="18"')}Photo`}<input type="file" id="photo" accept="image/*"></label>
+        <input class="note-in" id="note" maxlength="80" placeholder="Short note (optional)" value="${esc(note)}">
+      </div>
       <button class="send" id="send" ${pick?"":"disabled"}>${lang==="hi"?"भेजें":"Send"}</button>
-      <p class="tapcount">${taps===0?"Two taps: what you saw, then Send":"One more tap"}</p>
+      <p class="sub center" style="margin:-4px 0 0">${pick?"One more tap":"Two taps: what you saw, then Send"} · linked to this gun, not to you</p>
+    `;
+  }
+  function sent(){
+    const a = actions[actions.length-1], s = S(a.st), w = wastePerShift(s);
+    return `
+      <div><div class="k">Sent · ${a.id}</div><div class="h">Action created and sent to ${a.to}.</div></div>
+      <div class="card"><b style="display:block">${issueName(a.issue)} at ${s.id}</b><span class="sub">${s.area} · ${s.job}${a.note?` · “${esc(a.note)}”`:""}</span>${a.photo?`<img src="${a.photo}" alt="Attached photo" style="display:block;width:100%;max-height:140px;object-fit:cover;border-radius:10px;margin-top:8px">`:""}</div>
+      ${w>0?`<div class="card"><div class="k">This gun wastes</div><div style="display:flex;align-items:baseline;gap:8px;margin-top:4px"><span class="big" style="color:var(--red)">${rs(w)}</span><span class="sub">per shift · ${rs(w*SHIFTS)} a year</span></div></div>`:""}
+      <div class="card"><div class="k" style="margin-bottom:6px">Next</div>${stepper(a.stage)}<p class="sub" style="margin:8px 0 0">The issue closes only when after readings are entered and the operator confirms it still cleans well.</p></div>
+      <div class="row"><button class="ghost" data-openact="${a.id}">Track it</button><button class="ghost" data-go="scan">Done</button></div>
     `;
   }
 
-  function thanks(){
-    const r = last, s = saving(r);
-    const who = r.type==="near"||r.type==="unsafe" ? "Line supervisor, this shift" : "Maintenance, within 48 hours";
+  /* ---------- 2. live station status ---------- */
+  function stRow(s, mode){
+    const st = status(s);
+    return `<button class="st" ${mode==="scanpick"?`data-scan="${s.id}"`:`data-station="${s.id}"`}><span class="dot d-${st.c}"></span><div class="mid"><span class="mono">${s.id}</span><b>${s.job}</b><span class="sub">${st.why}</span></div><span class="sub" style="text-align:right">${s.psi} psi<br>${s.dba} dBA</span></button>`;
+  }
+  function stationsList(){
+    const areas = ["all", ...new Set(stations.map(s=>s.area))];
+    const list = stations.filter(s=>filter==="all"||s.area===filter).sort((a,b)=>({red:0,amber:1,green:2})[status(a).c]-({red:0,amber:1,green:2})[status(b).c]);
     return `
-      <div><div class="k">Sent · ${r.id}</div><h2 style="font-size:22px;margin-top:2px">Thank you. It is with the right person.</h2></div>
-      <div class="card"><b style="display:block">${label(r.type)}${r.size?` · ${LEAK[r.size].label}`:""}</b><small style="color:var(--muted)">Sent to: ${who}</small></div>
-      ${s?`<div class="card"><div class="k" style="margin-bottom:8px">${r.type==="leak"?"This leak costs every year":"Fitting a safety nozzle saves every year"}</div>
-        <div class="impact"><div><span class="big">${fmt(s.kwh)}</span><small>kWh</small></div><div><span class="big">${fmt(s.rs/1000)}k</span><small>rupees</small></div><div><span class="big">${t1(s.co2)}</span><small>t CO2 (grid)</small></div></div>
-        <p class="note" style="margin-top:8px">${r.type==="leak"?`About a ${LEAK[r.size].hole} hole: ${t1(s.cfm)} cfm of air the compressor makes for nothing.`:"Same part removes the eye and skin risk and cuts air use by about 23 cfm."}</p></div>`
-      :`<div class="card"><b>No blame, and it counts.</b><p class="note" style="margin-top:6px">The supervisor sees it this shift. If this point gets three reports, the job gets a task-risk review.</p></div>`}
-      <div class="tag">${svg('<path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.5"/>')}<div><small style="display:block;font-size:12px">Hang this tag on the point</small><code>${r.id}</code></div></div>
-      <div class="row"><button class="ghost" id="to-mine">Track it</button><button class="ghost" id="to-home">Done</button></div>
-      <p class="tapcount">+10 credits to ${r.line}</p>
+      <div><div class="k">Live station status</div><div class="h">${stations.length} air guns</div></div>
+      <div class="legend"><span><i class="dot d-green"></i>Safe nozzle, normal pressure</span><span><i class="dot d-amber"></i>Inspection required</span><span><i class="dot d-red"></i>Open pipe or high pressure</span></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">${areas.map(a=>`<button class="pill ${filter===a?"p-green":""}" style="border:1px solid var(--line);background:${filter===a?"":"var(--surface)"}" data-filter="${a}">${a==="all"?"All":a}</button>`).join("")}</div>
+      ${list.map(s=>stRow(s)).join("")}
+    `;
+  }
+  function stationDetail(){
+    const s = S(cur), st = status(s), w = wastePerShift(s);
+    const a = actions.filter(x=>x.st===s.id && x.stage<3 && x.issue!=="near")[0];
+    return `
+      <button class="back" data-go="stations">‹ Stations</button>
+      <div><div class="k">${s.area} · ${s.id}</div><div class="h">${s.job}</div></div>
+      <div class="banner b-${st.c}"><span style="font-size:12px;font-weight:700;letter-spacing:.1em">AIR GUN STATUS</span><b>${st.label.toUpperCase()}</b><span style="font-size:13px">${st.why}</span></div>
+      <div class="readings">
+        <div class="rd ${s.psi>LIM.psi?"bad":""}"><div class="k">Pressure</div><div class="big">${s.psi}<small>psi</small></div><span class="sub">limit ${LIM.psi} psi</span></div>
+        <div class="rd ${s.dba>LIM.dba?"bad":""}"><div class="k">Noise</div><div class="big">${s.dba}<small>dBA</small></div><span class="sub">limit ${LIM.dba} dBA</span></div>
+        <div class="rd ${s.scfm>NOZZLE_SCFM+2?"bad":""}"><div class="k">Air use</div><div class="big">${s.scfm}<small>SCFM</small></div><span class="sub">nozzle ${NOZZLE_SCFM} SCFM</span></div>
+        <div class="rd ${w>0?"bad":""}"><div class="k">Est. waste</div><div class="big">${rs(w)}<small>/shift</small></div><span class="sub">${rs(Math.round(w*SHIFTS/100)*100)} a year</span></div>
+      </div>
+      ${a?`<button class="act" data-openact="${a.id}"><div class="top"><div><div class="k">Action · ${a.id}</div><b style="display:block;font-size:15px">${a.fix}</b><span class="sub">${STAGES[a.stage]==="Reported"?"Not yet assigned":`Assigned to ${a.to}`} · due in 48 h</span></div></div>${stepper(a.stage)}</button>`
+        :`<div class="card"><b>No open action.</b><span class="sub" style="display:block">Last check ${s.checked}.</span></div>`}
+      <p class="sub" style="margin:0">Read ${s.checked}: gauge on regulator, handheld sound meter. Air use from nozzle maker data.</p>
+      <div class="row"><button class="ghost" data-scan="${s.id}">Report issue</button></div>
     `;
   }
 
-  function mine(){
+  /* ---------- 3. dashboard ---------- */
+  function dash(){
+    const verified = actions.filter(a=>a.stage===3 && a.days);
+    const avgDays = verified.reduce((t,a)=>t+a.days,0)/Math.max(1,verified.length);
+    const yearCost = stations.reduce((t,s)=>t+shiftCost(s),0)*SHIFTS;
+    const yearWaste = stations.reduce((t,s)=>t+wastePerShift(s),0)*SHIFTS;
+    const unsafe = actions.filter(a=>["open","psi"].includes(a.issue)).length + 2;
+    const maxScfm = 36, maxDb = 110;
+    const sorted = stations.slice().sort((a,b)=>b.scfm-a.scfm);
+    const col = s => status(s).c==="red"?"var(--red)":status(s).c==="amber"?"#D99A2B":"var(--green)";
     return `
-      <div><div class="k">Tap a report to move it on (demo)</div><h2 style="font-size:20px;margin-top:2px">My reports</h2></div>
-      ${reports.slice().reverse().map(r=>{ const s=saving(r); return `
-        <button class="rep" data-rep="${r.id}">
-          <div style="display:flex;justify-content:space-between;gap:8px;width:100%"><b>${label(r.type)}${r.size?` · ${LEAK[r.size].label}`:""}</b>${pillFor(r.stage)}</div>
-          <div class="steps">${STAGES.map((_,i)=>`<i class="${i<=r.stage?"on":""}"></i>`).join("")}</div>
-          <div class="meta"><code>${r.id} · ${r.point}</code><span>${s?`${fmt(s.kwh)} kWh/yr`:"Safety only"} · ${r.when}</span></div>
+      <div><div class="k">Energy and safety · this week</div><div class="h">Dashboard</div></div>
+      <div class="kpis">
+        <div class="card"><div class="k">Air cost</div><div class="big">${rs(yearCost/1000)}k</div><span class="sub">a year, all guns</span></div>
+        <div class="card"><div class="k">Avoidable</div><div class="big" style="color:var(--red)">${rs(yearWaste/1000)}k</div><span class="sub">a year, red and leaks</span></div>
+        <div class="card"><div class="k">Unsafe-use events</div><div class="big">${unsafe}</div><span class="sub">open pipe or high pressure</span></div>
+        <div class="card"><div class="k">Open reports</div><div class="big">${actions.filter(a=>a.stage<3).length}</div><span class="sub">avg ${avgDays.toFixed(1)} days to verify</span></div>
+      </div>
+      <div class="card"><div class="k">Air use per station · SCFM</div><div class="bars">
+        ${sorted.map(s=>`<div><code>${s.id}</code><span class="bar"><i style="width:${s.scfm/maxScfm*100}%;background:${col(s)}"></i><span class="lim" style="left:${NOZZLE_SCFM/maxScfm*100}%"></span></span><b>${s.scfm}</b></div>`).join("")}
+      </div><p class="sub" style="margin:8px 0 0">Line marks a guarded nozzle, 10 SCFM.</p></div>
+      <div class="card"><div class="k">Noise at operator · dBA</div><div class="bars">
+        ${stations.slice().sort((a,b)=>b.dba-a.dba).map(s=>`<div><code>${s.id}</code><span class="bar"><i style="width:${(s.dba-60)/(maxDb-60)*100}%;background:${s.dba>LIM.dba?"var(--red)":"var(--green)"}"></i><span class="lim" style="left:${(LIM.dba-60)/(maxDb-60)*100}%"></span></span><b>${s.dba}</b></div>`).join("")}
+      </div><p class="sub" style="margin:8px 0 0">Line marks 85 dBA. Scale starts at 60.</p></div>
+      <div class="card team"><div class="k" style="margin-bottom:4px">Team improvement vs last month</div>
+        <div><span>Filling Line 1</span><span>open pipes 3 → 0 <b>✓</b></span></div>
+        <div><span>Filling Line 2</span><span>open pipes 4 → 1 <b>↓</b></span></div>
+        <div><span>Packing 1</span><span>avg noise 96 → 87 dBA <b>↓</b></span></div>
+        <div><span>Mixing</span><span>reports closed 2 of 2 <b>✓</b></span></div>
+        <p class="sub" style="margin:8px 0 0">Each team is compared with its own last month. No names, no ranking.</p></div>
+    `;
+  }
+
+  /* ---------- 4. action tracking ---------- */
+  function actionsList(){
+    return `
+      <div><div class="k">Action tracking</div><div class="h">${actions.filter(a=>a.stage<3).length} open, ${actions.filter(a=>a.stage===3).length} verified</div></div>
+      ${actions.slice().reverse().map(a=>{ const s=S(a.st); return `
+        <button class="act" data-openact="${a.id}">
+          <div class="top"><b>${issueName(a.issue)} · ${s.id}</b><span class="pill ${a.stage===3?"p-green":a.stage===0?"p-red":"p-amber"}">${STAGES[a.stage]}</span></div>
+          ${stepper(a.stage)}
+          <span class="sub">${a.id} · ${a.to} · ${a.when}</span>
         </button>`}).join("")}
     `;
   }
-
-  function plant(){
-    const T = totals();
-    const openPipes = 24 - 9 - reports.filter(r=>r.type==="open"&&r.stage>=2).length;
-    const weeks = [4,6,11,15,14,12,10,9 + reports.filter(r=>r.id>"SA-0141").length];
-    const max = 16, W = 300, H = 120, bw = 26, gap = (W - weeks.length*bw)/(weeks.length-1);
-    const bars = weeks.map((v,i)=>{ const h = v/max*(H-24); const x = i*(bw+gap); return `<rect x="${x}" y="${H-18-h}" width="${bw}" height="${h}" rx="4" fill="${i===weeks.length-1?"var(--accent)":"var(--mint)"}"/><text x="${x+bw/2}" y="${H-4}" text-anchor="middle" font-size="10" fill="var(--muted)">W${i+1}</text><text x="${x+bw/2}" y="${H-22-h}" text-anchor="middle" font-size="10" fill="var(--ink)">${v}</text>`; }).join("");
-    const best = Math.max(...Object.values(credits));
+  function actionDetail(){
+    const a = actions.find(x=>x.id===openAct), s = S(a.st);
+    const b = a.before, af = a.after || {};
+    const row = (k,label,unit) => `<tr><td>${label}</td><td>${b?b[k]+" "+unit:"—"}</td><td>${a.stage>=2&&a.stage<3&&b?`<input id="af-${k}" type="number" inputmode="decimal" value="${af[k]??""}" aria-label="After ${label}">`:(af[k]!=null?`<span class="good">${af[k]} ${unit}</span>`:"—")}</td></tr>`;
+    const nextLabel = ["Assign","Mark fixed","Verify fix",""][a.stage];
     return `
-      <div><div class="k">Filling &amp; packing · this month</div><h2 style="font-size:20px;margin-top:2px">Plant view</h2></div>
-      <div class="kpis">
-        <div class="card"><div class="k">Energy saved</div><div class="big">${fmt(T.kwh)}</div><small>kWh a year, from fixed items</small></div>
-        <div class="card"><div class="k">CO2 avoided</div><div class="big">${t1(T.co2)}</div><small>tonnes a year at India grid rate</small></div>
-        <div class="card"><div class="k">Money saved</div><div class="big">${fmt(T.rs/1000)}k</div><small>rupees a year</small></div>
-        <div class="card"><div class="k">Open pipes left</div><div class="big" style="color:var(--danger)">${openPipes}</div><small>of 24 found in survey</small></div>
-      </div>
-      <div class="card"><div class="k">Still cleans well? (after each nozzle swap)</div>
-        <div style="display:flex;align-items:baseline;gap:10px;margin-top:4px"><span class="big">${Math.round(fb.yes/(fb.yes+fb.no)*100)}%</span><small style="color:var(--muted)">yes, from ${fb.yes+fb.no} answers</small></div>
-        <div class="board" style="margin-top:8px"><div><span>Yes</span><span class="bar"><i style="width:${fb.yes/(fb.yes+fb.no)*100}%"></i></span><b>${fb.yes}</b></div></div>
-        <p class="note" style="margin-top:6px">Roll out to more lines only if this stays above 80%.</p></div>
-      <div class="card chart"><div class="k">Reports per week</div>
-        <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Reports per week rise to 15 in week 4 then settle">${bars}</svg>
-        <p class="note">Reports rise at first, as hidden problems surface, then settle as points get fixed.</p></div>
-      <div class="card"><div class="k" style="margin-bottom:10px">Line credits</div><div class="board">
-        ${Object.entries(credits).sort((a,b)=>b[1]-a[1]).map(([l,c])=>`<div><span>${l}</span><span class="bar"><i style="width:${c/best*100}%"></i></span><b>${c}</b></div>`).join("")}
-      </div></div>
-      <div class="card" style="background:var(--warn-bg);border-color:transparent"><div class="k" style="color:var(--warn)">Task-risk review due</div><b style="display:block;margin-top:4px">AP-L3-07 · Bottle blow-off</b><small style="color:var(--muted)">3 reports in 10 days. Review the job, not the worker.</small></div>
+      <button class="back" data-go="actions">‹ Actions</button>
+      <div><div class="k">${a.id} · ${s.area} · ${s.id}</div><div class="h">${issueName(a.issue)}: ${a.fix}</div></div>
+      <div class="card">${stepper(a.stage)}</div>
+      <div class="card"><div class="k" style="margin-bottom:8px">Assigned to</div>
+        <div class="seg"><button data-assign="Maintenance" aria-pressed="${a.to==="Maintenance"}">Maintenance</button><button data-assign="Supervisor" aria-pressed="${a.to==="Supervisor"}">Supervisor</button></div></div>
+      ${b?`<div class="card"><div class="k">Readings</div><table class="ba"><thead><tr><th>Measure</th><th>Before</th><th>After</th></tr></thead><tbody>
+        ${row("psi","Pressure","psi")}${row("dba","Noise","dBA")}${row("scfm","Air use","SCFM")}</tbody></table>
+        ${a.stage===2?`<div style="margin-top:10px"><div class="k" style="margin-bottom:6px">Operator: still cleans well?</div><div class="seg"><button data-cl="yes" aria-pressed="${a.cleans===true}">Yes</button><button data-cl="no" aria-pressed="${a.cleans===false}">No</button></div></div>`:""}
+        ${a.stage===3?`<p class="sub" style="margin:8px 0 0">Verified. Operator confirmed it still cleans well. Saves ${rs(Math.max(0,b.scfm-af.scfm)*KW_PER_SCFM*GUN_H*TARIFF*SHIFTS)} a year.</p>`:""}
+      </div>`:`<div class="card"><p class="sub" style="margin:0">Near miss. No readings needed. The supervisor reviews the job with the team. Three reports at one gun start a task-risk review.</p></div>`}
+      ${a.stage<3?`<button class="send" id="advance">${nextLabel}</button><p class="sub center" id="advmsg" style="margin:-4px 0 0">${a.stage===2?"Enter all after readings and the operator's answer to verify.":""}</p>`:""}
     `;
   }
 
-  /* ---- render + events ---- */
-  let screen = "home";
+  /* ---------- render ---------- */
   function render(){
-    view.innerHTML = screen==="thanks" ? thanks() : ({home,report,mine,plant})[screen]();
+    const map = { scan:scanHome, report, sent, stations:stationsList, station:stationDetail, dash, actions:actionsList, action:actionDetail };
+    view.innerHTML = map[screen]();
     document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-current", b.dataset.tab===tab?"page":"false"));
-    view.scrollTop = 0;
   }
-  function go(s){ screen = s; tab = s==="thanks" ? "report" : s; render(); }
+  function go(s, t){ screen = s; tab = t || ({scan:"scan",report:"scan",sent:"scan",stations:"stations",station:"stations",dash:"dash",actions:"actions",action:"actions"})[s]; render(); view.scrollTop = 0; }
   function scan(id){
     const sc = $("#scanning"); sc.hidden = false;
-    setTimeout(()=>{ sc.hidden = true; point = id || "AP-L3-07"; pick = null; size = "clear"; go("report"); }, 1100);
+    setTimeout(()=>{ sc.hidden = true; cur = id || "FL2-03"; pick = null; note = ""; photo = null; go("report"); }, 1000);
   }
 
   document.addEventListener("click", e=>{
     const b = e.target.closest("button"); if(!b) return;
-    if(b.dataset.tab){ if(b.dataset.tab==="report" && !point){ scan(); return; } go(b.dataset.tab); return; }
+    const d = b.dataset;
+    if(d.tab){ go(d.tab==="scan"?"scan":d.tab==="dash"?"dash":d.tab); return; }
     if(b.id==="go-scan"){ scan(); return; }
-    if(b.dataset.point){ scan(b.dataset.point); return; }
-    if(b.dataset.pick){ pick = b.dataset.pick; render(); return; }
-    if(b.dataset.size){ size = b.dataset.size; render(); return; }
+    if(d.scan){ scan(d.scan); return; }
+    if(d.station){ cur = d.station; go("station"); return; }
+    if(d.go){ go(d.go); return; }
+    if(d.filter){ filter = d.filter; render(); return; }
+    if(d.pick){ pick = d.pick; render(); return; }
+    if(d.clean){ b.closest(".card").innerHTML = `<b>Thanks, noted.</b><span class="sub" style="display:block">Cleaning quality is part of verifying every fix.</span>`; return; }
     if(b.id==="send"){
-      const p = POINTS.find(x=>x.id===point);
-      last = { id:"SA-0"+(seq++), type:pick, size:pick==="leak"?size:null, point:p.id, line:p.line, stage:0, when:"Just now" };
-      reports.push(last); credits[p.line] += 10; pick = null; go("thanks"); return;
+      const s = S(cur);
+      actions.push({ id:"A-0"+(seq++), st:s.id, issue:pick, stage:0, to:ISSUES[pick].to, fix: pick==="open"?"Replace with guarded nozzle":pick==="psi"?"Reset regulator to 30 psi":pick==="leak"?"Find and fix the leak":pick==="near"?"Review the job with the team":"Inspect and advise",
+        before: pick==="near"?null:{psi:s.psi,dba:s.dba,scfm:s.scfm}, after:null, cleans:null, when:"Just now", note, photo });
+      if(pick==="leak" && !s.leak) s.leak = 4;
+      go("sent"); return;
     }
-    if(b.id==="fb-yes"||b.id==="fb-no"){ fb[b.id==="fb-yes"?"yes":"no"]++; asked = true; render(); return; }
-    if(b.id==="to-mine"){ go("mine"); return; }
-    if(b.id==="to-home"){ point = null; go("home"); return; }
-    if(b.dataset.rep){ const r = reports.find(x=>x.id===b.dataset.rep); if(r && r.stage<3){ r.stage++; if(r.stage===3) credits[r.line]+=20; } render(); return; }
+    if(d.openact){ openAct = d.openact; go("action"); return; }
+    if(d.assign){ actions.find(x=>x.id===openAct).to = d.assign; render(); return; }
+    if(d.cl){ actions.find(x=>x.id===openAct).cleans = d.cl==="yes"; keepInputs(); render(); return; }
+    if(b.id==="advance"){
+      const a = actions.find(x=>x.id===openAct);
+      if(a.stage===2 && a.before){
+        const v = k => { const el = $("#af-"+k); return el && el.value!=="" ? Number(el.value) : null; };
+        const af = { psi:v("psi"), dba:v("dba"), scfm:v("scfm") };
+        if(af.psi==null||af.dba==null||af.scfm==null||a.cleans==null){ $("#advmsg").textContent = "Fill all three after readings and the operator's answer first."; return; }
+        if(a.cleans===false){ $("#advmsg").textContent = "Operator says it does not clean well. Adjust the fix before verifying."; return; }
+        a.after = af; a.stage = 3; a.days = 1.0;
+        const s = S(a.st); Object.assign(s, af); if(a.issue==="open") s.device = "Guarded nozzle"; if(a.issue==="leak") s.leak = 0; s.checked = "Just now"; s.overdue = false;
+      } else if(a.stage===2){ a.stage = 3; a.days = 1.0; }
+      else { a.stage++; if(a.stage===2 && a.before){ a.after = { psi:30, dba:73, scfm:10 }; } }
+      render(); return;
+    }
     if(b.id==="lang-en"||b.id==="lang-hi"){ lang = b.id==="lang-hi"?"hi":"en";
       $("#lang-en").setAttribute("aria-pressed", lang==="en"); $("#lang-hi").setAttribute("aria-pressed", lang==="hi"); render(); return; }
   });
-  document.addEventListener("change", e=>{ if(e.target.id==="anon") anon = e.target.checked; });
+  function keepInputs(){
+    const a = actions.find(x=>x.id===openAct); if(!a || a.stage!==2) return;
+    a.after = a.after || {};
+    ["psi","dba","scfm"].forEach(k=>{ const el = $("#af-"+k); if(el && el.value!=="") a.after[k] = Number(el.value); });
+  }
+  document.addEventListener("input", e=>{ if(e.target.id==="note") note = e.target.value; });
+  document.addEventListener("change", e=>{
+    if(e.target.id==="photo" && e.target.files && e.target.files[0]){
+      const r = new FileReader(); r.onload = () => { photo = r.result; render(); }; r.readAsDataURL(e.target.files[0]);
+    }
+  });
 
+  /* deep link for screenshots: #station-FL2-03 */
+  const h = location.hash.replace("#","");
+  if(h.startsWith("station-") && S(h.slice(8))){ cur = h.slice(8); screen = "station"; tab = "stations"; }
   render();
 })();
 </script>
